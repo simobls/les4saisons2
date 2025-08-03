@@ -37,6 +37,23 @@ export const translations = {
     openHours1: { en: 'Available: Mon-Thu 11AM-10PM', fr: 'Ouvert : Lun-Jeu 11h-22h' },
     openHours2: { en: 'Fri-Sat 11AM-11PM, Sun 12PM-9PM', fr: 'Ven-Sam 11h-23h, Dim 12h-21h' },
   },
+  cart: {
+    title: { en: 'Shopping Cart', fr: 'Panier' },
+    empty: { en: 'Your cart is empty.', fr: 'Votre panier est vide.' },
+    total: { en: 'Total', fr: 'Total' },
+    clear: { en: 'Clear Cart', fr: 'Vider le panier' },
+    remove: { en: 'Remove', fr: 'Retirer' },
+    orderType: { en: 'Order Type', fr: 'Type de commande' },
+    pickup: { en: 'Pickup', fr: 'Retrait' },
+    delivery: { en: 'Delivery', fr: 'Livraison' },
+    deliveryFee: { en: 'Delivery Fee', fr: 'Frais de livraison' },
+    deliveryAddress: { en: 'Delivery Address', fr: 'Adresse de livraison' },
+    addressRequired: { en: 'Delivery address is required', fr: 'L\'adresse de livraison est requise' },
+    streetAddress: { en: 'Street Address', fr: 'Adresse' },
+    city: { en: 'City', fr: 'Ville' },
+    zipCode: { en: 'Zip Code', fr: 'Code postal' },
+    checkout: { en: 'Proceed to Checkout', fr: 'Passer la commande' },
+  },
   footer: {
     quickLinks: { en: 'Quick Links', fr: 'Liens rapides' },
     aboutUs: { en: 'About Us', fr: 'À propos' },
@@ -77,4 +94,4 @@ export const translations = {
     callForReservations: { en: 'Call for reservations', fr: 'Appeler pour réserver' },
     mapComing: { en: 'Interactive Map Coming Soon', fr: 'Carte interactive bientôt disponible' },
   },
-}; 
+};

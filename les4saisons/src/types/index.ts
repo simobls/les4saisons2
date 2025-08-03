@@ -48,6 +48,19 @@ export interface SmashBurgerCustomization {
   };
 }
 
+export interface DeliveryAddress {
+  street: string;
+  city: string;
+  zipCode: string;
+  note?: string;
+}
+
+export interface DeliveryInfo {
+  type: 'pickup' | 'delivery';
+  address?: DeliveryAddress;
+  fee: number;
+}
+
 export interface Order {
   id: string;
   userId: string;
@@ -57,6 +70,7 @@ export interface Order {
   createdAt: Date;
   customerName: string;
   customerEmail: string;
+  deliveryInfo?: DeliveryInfo;
 }
 
 export type AuthState = {

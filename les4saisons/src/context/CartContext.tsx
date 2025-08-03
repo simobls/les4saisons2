@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { CartItem, MenuItem, TacoCustomization, SmashBurgerCustomization } from '../types';
+import { CartItem, MenuItem, TacoCustomization, SmashBurgerCustomization, DeliveryInfo, DeliveryAddress } from '../types';
 
 interface CartContextType {
   items: CartItem[];
+  deliveryInfo: DeliveryInfo;
   addToCart: (item: MenuItem, customizations?: TacoCustomization | SmashBurgerCustomization) => void;
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
@@ -11,6 +12,9 @@ interface CartContextType {
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
+  setDeliveryType: (type: 'pickup' | 'delivery') => void;
+  setDeliveryAddress: (address: DeliveryAddress) => void;
+  getOrderTotal: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -27,8 +31,14 @@ interface CartProviderProps {
   children: ReactNode;
 }
 
+const DELIVERY_FEE = 3.50; // €3.50 delivery fee
+
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [deliveryInfo, setDeliveryInfo] = useState<DeliveryInfo>({
+    type: 'pickup',
+    fee: 0
+  });
 
   const addToCart = (item: MenuItem, customizations?: TacoCustomization | SmashBurgerCustomization) => {
     setItems(prev => {
@@ -71,10 +81,34 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const clearCart = () => {
     setItems([]);
+    setDeliveryInfo({
+      type: 'pickup',
+      fee: 0
+    });
+  };
+
+  const setDeliveryType = (type: 'pickup' | 'delivery') => {
+    setDeliveryInfo(prev => ({
+      ...prev,
+      type,
+      fee: type === 'delivery' ? DELIVERY_FEE : 0,
+      address: type === 'pickup' ? undefined : prev.address
+    }));
+  };
+
+  const setDeliveryAddress = (address: DeliveryAddress) => {
+    setDeliveryInfo(prev => ({
+      ...prev,
+      address
+    }));
   };
 
   const getTotalPrice = () => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const getOrderTotal = () => {
+    return getTotalPrice() + deliveryInfo.fee;
   };
 
   const getTotalItems = () => {
@@ -84,6 +118,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   return (
     <CartContext.Provider value={{
       items,
+      deliveryInfo,
       addToCart,
       removeFromCart,
       updateQuantity,
@@ -92,6 +127,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       clearCart,
       getTotalPrice,
       getTotalItems,
+      setDeliveryType,
+      setDeliveryAddress,
+      getOrderTotal,
     }}>
       {children}
     </CartContext.Provider>
